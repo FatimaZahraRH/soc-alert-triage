@@ -2,17 +2,17 @@
 
 **Pipeline de détection d'intrusion réseau (inspiré CICIDS2017) + triage d'alertes contextuel + boucle de retour d'expérience analyste, inspiré de la littérature récente sur la fatigue d'alerte en SOC (ExTriage, AACT).**
 
-Projet réalisé pour préparer une candidature sur un stage orienté détection opérationnelle / SOC / MDR, en s'appuyant explicitement sur des travaux de recherche récents (voir `docs/methodology_notes.md`).
+
 
 ---
 
-## 🎯 Le problème traité
+##  Le problème traité
 
 Un SOC réel reçoit des milliers d'alertes par jour, avec un taux de faux positifs documenté dépassant 50 % en production (Alahmadi et al., USENIX Security 2022). Un classifieur ML seul, aussi précis soit-il, ne résout pas ce problème structurellement : certains flux réseau (un scan de vulnérabilité autorisé par l'équipe sécurité, par exemple) sont **indiscernables d'une vraie attaque à partir du seul signal réseau**. Ce projet démontre ce point empiriquement, puis y répond avec une architecture à deux étages : classification réseau + triage contextuel avec apprentissage par retour d'expérience.
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 Flux réseau (13 caractéristiques, style CICIDS2017)
@@ -38,7 +38,7 @@ Flux réseau (13 caractéristiques, style CICIDS2017)
 
 ---
 
-## 📂 Structure du projet
+##  Structure du projet
 
 ```
 soc-alert-triage/
@@ -67,7 +67,7 @@ soc-alert-triage/
 
 ---
 
-## 🚀 Installation et démarrage rapide
+##  Installation et démarrage rapide
 
 ```bash
 git clone <votre-repo>
@@ -88,7 +88,7 @@ Aucune clé API, aucun téléchargement externe : tout tourne en local avec des 
 
 ---
 
-## 📊 Résultats mesurés
+##  Résultats mesurés
 
 ### Détection
 
@@ -121,7 +121,7 @@ pytest tests/ -v
 
 ---
 
-## 🧠 Choix de conception à retenir
+##  Choix de conception à retenir
 
 - **Séparation stricte signal réseau / contexte métier** : le classifieur ML ne voit jamais `asset_criticality` ni `known_authorized_source` — uniquement les 13 caractéristiques de flux. Le contexte est ajouté après, dans le module de triage. Cette séparation est ce qui permet de démontrer, de façon mesurable, la limite du "tout-ML" et la valeur ajoutée du triage contextuel.
 - **Identifiant de source persistant** (`source_asset_id`) plutôt qu'un identifiant par flux : les scanners autorisés réutilisent un petit pool de 3 identifiants (comme de vraies machines), tandis que les autres flux ont des identifiants uniques — condition nécessaire pour qu'un apprentissage par source ait un sens réaliste, sans généraliser à tort sur de vraies attaques.
@@ -130,7 +130,7 @@ pytest tests/ -v
 
 ---
 
-## ⚠️ Limites assumées
+##  Limites assumées
 
 - **Dataset synthétique**, pas le vrai CICIDS2017 (contrainte d'environnement) — l'AUC de 0,99 est donc optimiste par rapport à un déploiement réel sur trafic capturé, où le bruit et la diversité des comportements bénins sont plus importants.
 - **Classification du type d'attaque par heuristique simple**, pas par un vrai modèle multi-classes entraîné — amélioration identifiée pour une v2.
@@ -140,7 +140,7 @@ Voir `docs/methodology_notes.md` pour le détail des références de recherche e
 
 ---
 
-## 🛠️ Stack technique
+##  Stack technique
 
 Python 3.12 · scikit-learn (HistGradientBoosting, permutation importance, courbe ROC) · pandas · Plotly · pytest
 
