@@ -1,8 +1,12 @@
 # SOC Alert Triage — Détection réseau & réduction de faux positifs par apprentissage
 
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white) ![Tests](https://img.shields.io/badge/tests-23%20passed-brightgreen) ![Licence](https://img.shields.io/badge/licence-MIT-blue)
+
 **Pipeline de détection d'intrusion réseau (inspiré CICIDS2017) + triage d'alertes contextuel + boucle de retour d'expérience analyste, inspiré de la littérature récente sur la fatigue d'alerte en SOC (ExTriage, AACT).**
 
-
+> **En bref** — un classifieur ML seul ne distingue pas un scan autorisé d'un vrai scan malveillant, car leurs signatures réseau sont identiques. Ce projet le démontre, puis ajoute un second étage de triage contextuel qui apprend des validations des analystes.
+>
+> **81,7 % d'alertes en moins sur les sources déjà validées · 0 % de faux négatifs · AUC 0,99** (données synthétiques, limite documentée).
 
 ---
 
@@ -70,7 +74,7 @@ soc-alert-triage/
 ##  Installation et démarrage rapide
 
 ```bash
-git clone <votre-repo>
+git clone https://github.com/FatimaZahraRH/soc-alert-triage.git
 cd soc-alert-triage
 
 python3 -m venv venv
@@ -148,4 +152,4 @@ Python 3.12 · scikit-learn (HistGradientBoosting, permutation importance, courb
 
 ## Licence
 
-Projet personnel à but pédagogique et de démonstration. Toutes les données réseau sont synthétiques.
+Distribué sous licence MIT (voir [`LICENSE`](LICENSE)). Projet personnel à but pédagogique et de démonstration. Toutes les données réseau sont synthétiques.
